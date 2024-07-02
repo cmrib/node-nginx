@@ -8,11 +8,11 @@ services:
         networks: 
            - node-network
         depends_on: 
-            - db
+            db:
+                condition: service_healthy
         volumes:
             - ./app:/usr/src/app
-        # ports:
-        #     - "3000:3000"
+
     nginx:
         container_name: nginx
         restart: always
@@ -37,6 +37,12 @@ services:
           - MYSQL_ROOT_PASSWORD=root
         networks: 
           - node-network
+        healthcheck:
+            test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -proot"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 30s
 
 networks: 
     node-network:

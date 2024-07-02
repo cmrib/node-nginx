@@ -13,7 +13,7 @@ const config = {
 
 const connection = mysql.createConnection(config);
 
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   const selectSql = `SELECT * FROM people`;
 
   connection.query(selectSql, (err, results) => {
