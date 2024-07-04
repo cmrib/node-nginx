@@ -12,6 +12,8 @@ services:
                 condition: service_healthy
         volumes:
             - ./app:/usr/src/app
+            - /usr/src/app/node_modules # volume anônimo para evitar a sobrescrita
+
 
     nginx:
         container_name: nginx
@@ -21,7 +23,9 @@ services:
         ports:
             - "8080:80"
         networks: 
-            - node-network   
+            - node-network 
+        depends_on:
+            - nodeserver
 
     db:
         platform: linux/x86_64
